@@ -10,8 +10,8 @@ if(!$portal_activo){
 if(!isset($index)){
 
 $host_bd = "localhost";
-$usuario_bd = "sipubusrbd";
-$clave_bd =  "Pib45Rhs.3ed.?fkd";
+$usuario_bd = "usuario";
+$clave_bd =  "clave";
 $bd = "padron_beneficiarios";
 $conexion=new mysqli($host_bd,$usuario_bd,$clave_bd,$bd);
 $conexion->query("SET NAMES utf8");
