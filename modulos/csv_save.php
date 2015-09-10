@@ -118,7 +118,6 @@ $reg_totales = 0;
 $reg_guardados = 0;
 $reg_omitidos = 0;
 $contador_curps_omitidos = 0;
-
 $filename = $_FILES['xlsfile']['tmp_name'];
 if (($gestor = fopen($filename, "r")) !== FALSE) {
 while (($datos = fgetcsv($gestor, 1000, ",")) !== FALSE) {
@@ -130,60 +129,49 @@ $reg_totales++;
 }
 fclose($gestor);
 }
-
 for($x=0;$x<$reg_totales;$x++){
 $curp = strtoupper($data[$x][0]);
 //Checamos que realmente sea un curp
 $curp_valido = verificar_curp($curp);
 if($curp_valido){
  $letra = strtoupper(substr($curp,0,1));
-  $ap_paterno=$data[$x][1];
-  $ap_materno=$data[$x][2];
-  $nombre=$data[$x][3];
-  $identificacion=$data[$x][4];
-  $municipio=$data[$x][5];
-  $localidad =$data[$x][6];
-  $cp =$data[$x][7];
-  $tipo_vialidad =$data[$x][8];
-    $n_vialidad =$data[$x][9];
-          $n_ext =$data[$x][10];
-          $n_int =$data[$x][11];
-          $estado_civil=$data[$x][12];
-          $jefe_familia=$data[$x][13];
-          $discapacidad=$data[$x][14]; //checar valor de discapacidad
+ $ap_paterno=$data[$x][1];
+ $ap_materno=$data[$x][2];
+ $nombre=$data[$x][3];
+ $identificacion=$data[$x][4];
+ $municipio=$data[$x][5];
+ $localidad =$data[$x][6];
+ $cp =$data[$x][7];
+ $tipo_vialidad =$data[$x][8];
+ $n_vialidad =$data[$x][9];
+ $n_ext =$data[$x][10];
+ $n_int =$data[$x][11];
+ $estado_civil=$data[$x][12];
+ $jefe_familia=$data[$x][13];
+ $discapacidad=$data[$x][14]; //checar valor de discapacidad
 		      //apoyos
-          $id_dependecia=$data[$x][15];
-          $tipo_apoyo=$data[$x][16];
-          $caracteristica_apoyo =$data[$x][17];
-					$importe = $data[$x][18];
-          $num_apoyos=$data[$x][19];
-          $periodicidad=$data[$x][20];
-          $fecha_apoyo=$data[$x][21]; //checar fecha de apoyos
-
+  $id_dependecia=$data[$x][15];
+  $tipo_apoyo=$data[$x][16];
+  $caracteristica_apoyo =$data[$x][17];
+  $importe = $data[$x][18];
+  $num_apoyos=$data[$x][19];
+  $periodicidad=$data[$x][20];
+  $fecha_apoyo=$data[$x][21]; //checar fecha de apoyos
       }
       else
       {
-
        $reg_omitidos = $reg_omitidos + 1;
        $curp_omitidos[$contador_curps_omitidos] = $curp;
        $contador_curps_omitidos = $contador_curps_omitidos + 1;
-
       }
         if($curp_valido){
 					$consulta_registro = "SELECT count(*) FROM beneficiarios_$letra WHERE curp = '$curp'";
 					$ex_registro = $conectarse->query($consulta_registro);
 					$res_registro = $ex_registro->fetch_array();
           $ex_registro->free();
-
-
-
-
 					if($res_registro[0] != 1){
-
-            echo "<br>nuevo registro: $curp";
-
             $fecha = date("Y-m-d H:i:s");
-            if($discapacidad == ""){ $discapacidad = 0; $tipo_discapacidad = ""; }else
+            if($discapacidad == ""  OR  $discapacidad=="0" ){ $discapacidad = 0; $tipo_discapacidad = ""; }else
             { $tipo_discapacidad = $discapacidad; $discapacidad = 1;  }
             $consulta_insercion = "INSERT INTO beneficiarios_$letra
             (curp,
@@ -205,9 +193,7 @@ if($curp_valido){
             tipo_discapacidad,
             fecha_actualizacion
 						)
-
             VALUES
-
             ('$curp',
             '$fecha',
             '$ap_paterno',
@@ -227,128 +213,74 @@ if($curp_valido){
             '$tipo_discapacidad',
             '$fecha'
             )";
-
-
-
-
             $ex_registro = $conectarse->query($consulta_insercion);
             $reg_guardados = $reg_guardados + 1;
 
-            $insertar_registro_apoyo_sql = "INSERT INTO apoyos_$letra
-					(curp,dependencia,tipo_apoyo,caracteristica_apoyo,importe_apoyo,no_apoyos,periodicidad,fecha_apoyo) VALUES ('$curp','$id_dependecia','$tipo_apoyo','$caracteristica_apoyo','$importe','$num_apoyos','$periodicidad','$fecha_apoyo')";
-
-
-
-
-
-          $conectarse->query($insertar_registro_apoyo_sql);
-
+$insertar_registro_apoyo_sql = "INSERT INTO apoyos_$letra (curp,dependencia,tipo_apoyo,caracteristica_apoyo,importe_apoyo,no_apoyos,fecha_apoyo,periodicidad) VALUES ('$curp','$id_dependecia','$tipo_apoyo','$caracteristica_apoyo','$importe','$num_apoyos','$fecha_apoyo','$periodicidad')";
+$conectarse->query($insertar_registro_apoyo_sql);
           }else{
-
-            echo "<br> Se agrega un nnuevo apoyo para: $curp";
-
-					  $consulta_actualizacion = "UPDATE beneficiarios_$letra SET fecha_actualizacion = '$fecha'";
-
-    $insertar_registro_apoyo_sql = "INSERT INTO apoyos_$letra
-					(curp,dependencia,tipo_apoyo,caracteristica_apoyo,importe_apoyo,no_apoyos,periodicidad,fecha_apoyo) VALUES ('$curp','$id_dependecia','$tipo_apoyo','$caracteristica_apoyo','$importe','$num_apoyos','$periodicidad','$fecha_apoyo')";
-
-
-
-
-
-          $conectarse->query($insertar_registro_apoyo_sql);
-
-
-
+$consulta_actualizacion = "UPDATE beneficiarios_$letra SET fecha_actualizacion = '$fecha'";
+            $insertar_registro_apoyo_sql = "INSERT INTO apoyos_$letra (curp,dependencia,tipo_apoyo,caracteristica_apoyo,importe_apoyo,no_apoyos,fecha_apoyo,periodicidad) VALUES ('$curp','$id_dependecia','$tipo_apoyo','$caracteristica_apoyo','$importe','$num_apoyos','$periodicidad','$fecha_apoyo')";
+$a = $conectarse->query($insertar_registro_apoyo_sql);
+$b = $conectarse->query($consulta_actualizacion);
           }
-
         }
-
     }
-
-
-
     $txt_registros = "Numero de Registros Totales: <span class='label label-info'>$reg_totales</span><br>";
     $txt_url =  "<a href='#'>Ver lista de los beneficiarios de su dependencia <span class='glyphicon glyphicon-list' aria-hidden='true'></span></a>";
-
-
-
 unset($reg_totales);
 $error = false;
-
-
 }
 else{ $error=true;  }
 $conectarse->close();
-
+unset($fname);
+unset($file_name);
+unset($data);
 ?>
-
  <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            Sistema Unico de Padr&oacute;n de Beneficiarios
-            <small>Version preeliminar en desarrollo</small>
-          </h1>
-          <ol class="breadcrumb">
-            <li class="active"><i class="fa fa-home"></i> Inicio</li>
-          </ol>
-        </section>
-<!-- Main content -->
-        <section class="content">
-          <div class="row">
-            <!-- left column -->
-            <div class="col-md-8">
-              <!-- general form elements -->
-              <div class="box box-success">
-                <div class="box-header">
-                  <h3 class="box-title">Carga de Archivos CSV</h3>
-                </div><!-- /.box-header -->
-                <!-- form start -->
-                  <div class="box-body">
-
-                      <?php if($error){
-    ?>
-                      <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-times"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Error al cargar archivo</span>
-                  <span class="info-box-number"><?php echo $file_name;?> y este archivo no es valido o esta corrupto.</span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
-
-                      <?php }else{ ?>
-                      <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-check-square-o"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Cargados</span>
-                  <span class="info-box-number"><?php echo $reg_guardados; ?> registros</span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
-                      <?php } ?>
-
-
-                  </div>
-              </div><!-- /.box -->
-
+<!-- Content Header (Page header) -->
+<section class="content-header">
+<h1>
+Sistema Unico de Padr&oacute;n de Beneficiarios
+<small>Version preeliminar en desarrollo</small>
+</h1>
+<ol class="breadcrumb">
+<li class="active"><i class="fa fa-home"></i> Inicio</li>
+</ol>
+</section>
+<section class="content">
+<div class="row">
+<div class="col-md-8">
+<div class="box box-success">
+<div class="box-header">
+<h3 class="box-title">Carga de Archivos CSV</h3>
+</div>
+<div class="box-body">
+<?php if($error){ ?>
+<div class="info-box">
+<span class="info-box-icon bg-red"><i class="fa fa-times"></i></span>
+<div class="info-box-content">
+<span class="info-box-text">Error al cargar archivo</span>
+<span class="info-box-number"><?php echo $file_name;?> y este archivo no es valido o esta corrupto.</span>
+</div>
+</div>
+<?php }else{ ?>
+<div class="info-box">
+<span class="info-box-icon bg-green"><i class="fa fa-check-square-o"></i></span>
+<div class="info-box-content">
+<span class="info-box-text">Cargados</span>
+<span class="info-box-number"><?php echo $reg_guardados; ?> registros</span>
+</div>
+</div>
+<?php } ?>
+</div>
+</div>
 <pre>
-  Registros no guardados:<?php echo $reg_omitidos;?>
-  <hr>
-  <?php print_r($curp_omitidos);
-
-
-  ?>
-
+CURP de Registros no guardados:<?php echo $reg_omitidos;?>
+<hr>
+<?php print_r($curp_omitidos); ?>
 </pre>
-
-
-
-              <!-- Input addon -->
-
-
-            </div><!--/.col (left) -->
-            <!-- right column -->
-
-          </div>   <!-- /.row -->
-        </section><!-- /.content -->
-      </div><!-- /.content-wrapper -->
+</div>
+</div>
+</section>
+</div>
