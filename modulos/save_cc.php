@@ -115,7 +115,7 @@ VALUES
 '$fecha_actualiza')";
 
 
-$f_apoyo = $fecha_apoyo." ".date('H:i:s');
+$f_apoyo = $fecha_apoyo;
 
 $ConsultaInsertarApoyos = "INSERT INTO $tabla_apoyos (
 curp,
@@ -147,7 +147,6 @@ VALUES
 
 
 
-
 unset($_POST);
 if($conexion->query($ConsultaInsertar)){
 
@@ -168,7 +167,7 @@ if($conexion->query($ConsultaInsertar)){
     <div class='alert alert-danger alert-dismissable'>
                     <button type='button' class='close' data-dismiss='alert' aria-hidden="true">&times;</button>
                     <h4><i class='icon fa fa-ban'></i> Error</h4>
-                   Ha ocurrido un error al intentar guardar los apoyos, el beneficiario se registro, pero los apoyos no, si el error persite consulte al administrador.<br><?php printf("Mensaje de error: %s\n",$conexion->error); ?>
+                   Ha ocurrido un error al intentar guardar los apoyos, el beneficiario se registró, pero los apoyos no, si el error persite consulte al administrador.<br><?php printf("Mensaje de error: %s\n",$conexion->error); ?>
                   </div>
     <?php
   }
