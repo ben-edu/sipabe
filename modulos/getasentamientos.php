@@ -2,7 +2,7 @@
 if (isset($_GET['c'])) {
 $cp = $_GET['c'];
 $mun = $_GET['m'];
-$conexion = new mysqli('localhost','sipubusrbd','Pib45Rhs.3ed.?fkd','padron_beneficiarios');
+$conexion = new mysqli('localhost','usuario','clave','padron_beneficiarios');
 $conexion->query("SET NAMES utf8");
 $consulta = "SELECT cp.id,cp.n_asentamiento as asentamiento FROM codigos_postales cp where codigo_postal = '$cp' and municipio = '$mun'";
 $ex_consulta = $conexion->query($consulta);
@@ -37,7 +37,7 @@ echo $return_value;
 
 if(isset($_GET['a'])){
 $id_cp = $_GET['a'];
-$conexion = new mysqli('localhost','sipubusrbd','Pib45Rhs.3ed.?fkd','padron_beneficiarios');
+$conexion = new mysqli('localhost','usuario','clave','padron_beneficiarios');
 $conexion->query("SET NAMES utf8");
 $consulta = "SELECT
 ta.tipo_asentamiento as tipo,
