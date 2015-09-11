@@ -3,7 +3,7 @@ if(isset($_GET['m'])){
 $mpio = $_GET['m'];
 }
 if ($mpio !== "") {
-    $conexion = new mysqli('localhost','sipubusrbd','Pib45Rhs.3ed.?fkd','padron_beneficiarios');
+    $conexion = new mysqli('localhost','usuario','clave','padron_beneficiarios');
     $conexion->query("SET NAMES utf8");
     $consulta = "select
 	id_localidad, nombre FROM localidades
