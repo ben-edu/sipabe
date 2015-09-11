@@ -30,7 +30,7 @@ window.location='$url';
 <section class="content">
 <div class="box box-danger">
 <div class="panel-body">
-<form  method="post" id="rfc_form" name="rfc_form" role="form" action="?token=<?php print(md5(15)); ?>">
+<form  method="post" id="lista_colectivos" name="lista_colectivos" role="form" action="?token=<?php print(md5(16)); ?>">
 <div class="form-group">
 <label>Agregar beneficiarios a un grupo ya registrado:</label>
 <select class="form-control">
