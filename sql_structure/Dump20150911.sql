@@ -845,14 +845,27 @@ CREATE TABLE `apoyos_Z` (
 DROP TABLE IF EXISTS `ben_colectivos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+
+
 CREATE TABLE `ben_colectivos` (
   `clave` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) DEFAULT NULL,
+  `nombre` varchar(45) NOT NULL,
   `rfc` varchar(45) DEFAULT NULL,
   `fecha_const` varchar(45) DEFAULT NULL,
-  `documentos_const` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`clave`)
+  `documentos_const` blob,
+  `cp` int(11) DEFAULT NULL,
+  `t_vialidad` varchar(45) DEFAULT NULL,
+  `n_vialidad` varchar(45) DEFAULT NULL,
+  `entre_calle` varchar(45) DEFAULT NULL,
+  `num_ext` varchar(45) DEFAULT NULL,
+  `num_int` varchar(45) DEFAULT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
+  `actividad` varchar(128) DEFAULT NULL,
+  `cobertura` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`clave`),
+  UNIQUE KEY `nombre_UNIQUE` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
