@@ -9,7 +9,7 @@
 </ol>
 </section>
 <section class="content">
-<form class="form-horizontal" name="nuevo_bc_form" id="nuevo_bc_form" action="main.php?token=<?php print(md5(0)); ?>" method="post">
+<form class="form-horizontal" name="nuevo_bc_form" id="nuevo_bc_form" action="main.php?token=<?php print(md5(19)); ?>" method="post" enctype="multipart/form-data">
 <div class='row'>
 <div class='col-xs-12'>
 <div class="nav-tabs-custom">
@@ -98,9 +98,7 @@ unset($ex_consulta_cobertura);
 <div class="form-group">
 <label for="perfil_s" class="control-label col-xs-2">&nbsp;</label>
 <div class="col-xs-6">
-<button type="button" class="btn btn-default" onclick="validar_form();">
-<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Guardar y Agregar Beneficiarios
-</button>
+<input type="submit" class="btn btn-default" value="Guardar">
 </div>
 </div>
 </div>
@@ -141,7 +139,7 @@ xmlhttp.open("GET", url, true);
 xmlhttp.send();
 }
 </script>
-<script src="js/validar_form_cc.js"></script>
+
 <script language="javascript">
 function carga_subprogramas(v){
 var elegido = v;
