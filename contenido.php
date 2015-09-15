@@ -72,6 +72,10 @@ switch ($ruta){
   include('modulos/ben_poblacion.php');
   break;
 
+  case md5(19):
+  include('modulos/save_ben_colectivo.php');
+  break;
+
 
 
     default:
